@@ -4,19 +4,18 @@ import Subheading from "../components/Subheading.astro"
 
 interface Props {
 	title: string;
-    subtitle: string;
 	body1: string;
     body2: string;
     body3: string;
 }
 
-const { title, subtitle, body1, body2, body3 } = Astro.props;
+const { title, body1, body2, body3 } = Astro.props;
 ---
 
 <article class="about-us">
     <img src={whiteStar.src} alt="White Star Design" class="white-star-top">
     <Subheading title={title}/>
-    <h3>{subtitle}</h3>
+    <h3>the <span class='pink-text'>past, present</span> and <span class='pink-text'>future</span> of Technolgap!</h3>
     <p>{body1}</p>
     <p>{body2}</p>
     <p>{body3}</p>
@@ -54,4 +53,9 @@ const { title, subtitle, body1, body2, body3 } = Astro.props;
         left: 540px;
         z-index: 0;
     }
+    
+    .pink-text {
+        color: #fcb3e0;
+    }
+
 </style>
