@@ -13,6 +13,8 @@
     <li class="desktop-dropdown">
       <a href="/about-us" class="desktop-dropdown-toggle">ABOUT US</a>
       <ul class="desktop-dropdown-menu">
+        <li><div class="menu-item"><a href="#">Core Values</a></div></li>
+        <li><div class="menu-item"><a href="#">Milestones</a></div></li>
         <li><div class="menu-item"><a href="/our-team">Our Team</a></div></li>
       </ul>
     </li>
@@ -50,6 +52,8 @@
           >
 
           <ul class="mobile-dropdown-menu" id="aboutDropdown">
+            <li><a href="#">Core Values</a></li>
+            <li><a href="#">Milestones</a></li>
             <li><a href="/our-team">Our Team</a></li>
           </ul>
         </li>
@@ -95,7 +99,7 @@
   }
 
   .desktop-navbar {
-    background-color: #2d6d68dd;
+    background-color: #2d6d68;
     padding: 0.5rem;
     width: 100%;
     position: sticky;
@@ -104,6 +108,7 @@
     align-items: center; /* Center items vertically */
     height: 70px; /* Set a fixed height */
     opacity: 1;
+    overflow: hidden;
   }
 
   .desktop-navbar ul {
@@ -114,12 +119,17 @@
     gap: 2rem;
   }
 
-  .logo img {
-    width: 100px;
-    height: auto;
-    display: block;
-    margin-right: 20px;
-  }
+  
+/* DESKTOP Navbar style */
+.logo img {
+  width: 100px; /* Default size for smaller devices */
+  height: auto;
+  display: block;
+  margin-right: 20px;
+}
+
+
+
 
   .desktop-navbar li {
     position: relative;
@@ -152,7 +162,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #2d6d68dd;
+    background-color: #2d6d68;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -171,7 +181,7 @@
     text-decoration: none;
   }
   .desktop-dropdown-menu li a:hover {
-    background-color: #64a8a2dd;
+    background-color: #64a8a2;
     box-sizing: border-box;
     border: 0.25px solid white;
   }
@@ -180,7 +190,7 @@
   }
   .desktop-dropdown:hover .desktop-dropdown-toggle {
     font-weight: bold;
-    background-color: #64a8a2dd;
+    background-color: #64a8a2;
     border-radius: 0;
   }
 
@@ -189,12 +199,12 @@
     margin-right: 2rem;
     border: 0.25px solid white;
     color: white;
-    background-color: #2d6d68dd;
+    background-color: #2d6d68;
     transition: font-weight 60s;
   }
   .custom-button:hover {
     font-weight: bold;
-    background-color: #64a8a2dd;
+    background-color: #64a8a2;
   }
 
   /*MOBILE NAVBAR DESIGN*/
@@ -202,13 +212,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2d6d68dd;
+    background-color: #2d6d68;
     padding: 0.5rem;
     position: sticky;
     top: 0;
-    width: 600px;
+    width: 100%;
     height: 70px;
-
+    opacity: 1;
     z-index: 10000;
   }
 
@@ -224,6 +234,7 @@
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
+    margin-right: 30px;
   }
 
   .menu {
@@ -232,9 +243,8 @@
     position: absolute;
     top: 85px;
     right: 0;
-    background-color: #2d6d68dd;
+    background-color: #2d6d68;
     width: 50%;
-    opacity: 1;
   }
 
   .menu ul {
@@ -248,7 +258,7 @@
     border-bottom: none;
   }
   .main-menu {
-    width: 90%;
+    width: 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     transition: box-shadow 0.3s;
     margin-top: 10px;
@@ -270,7 +280,7 @@
 
   .menu a:hover,
   .menu button:hover {
-    background-color: #64a8a2dd;
+    background-color: #64a8a2;
     font-weight: bold;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
@@ -289,19 +299,91 @@
   .mobile-navbar {
     display: none;
   }
-
-  @media (max-width: 767px) {
+  
+  
+  
+  @media (max-width: 821px) {
     .desktop-navbar {
       display: none;
     }
 
     .mobile-navbar {
       display: flex;
+      width: 810px;
     }
     .logo img {
       margin-right: 100px;
     }
   }
+  
+  @media (min-width: 1024px) and (max-width:1024px) {
+  
+  .logo img{
+  width: 100px;
+}
+.desktop-dropdown {
+  white-space: nowrap; 
+}
+.custom-button{
+  white-space: nowrap;
+}
+
+.desktop-navbar ul{
+  gap: 0.5rem;
+}
+
+
+}
+
+@media(min-width:912px) and (max-width:912px){
+  .desktop-navbar{
+    width: 1300px;
+  }
+  .logo img{
+    margin-right: 140px;
+  }
+  .desktop-dropdown {
+    white-space: nowrap; 
+  }
+  .custom-button{
+    white-space: nowrap;
+  }
+
+}
+
+@media(min-width:853px) and (max-width:853px){
+  .desktop-navbar{
+    width: 2000px;
+  }
+  .desktop-dropdown {
+    white-space: nowrap; 
+  }
+  .custom-button{
+    white-space: nowrap;
+  }
+
+}
+@media(min-width:1280px) and (max-width:1280px){
+  .desktop-navbar{
+    width: 1500px;
+  }
+  .logo img{
+    margin-right: 350px;
+  }
+  .desktop-dropdown {
+    white-space: nowrap; 
+  }
+  .custom-button{
+    white-space: nowrap;
+  }
+
+}
+
+
+  
+  
+  
+  
 </style>
 
 <script type="module">
