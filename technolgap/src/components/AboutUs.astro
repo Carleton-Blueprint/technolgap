@@ -1,7 +1,5 @@
 ---
 import Subheading from "../components/Subheading.astro";
-import CoreValues from "./CoreValues.astro";
-import Milestones from "./milestones.astro";
 
 interface Props {
   title: string;
@@ -33,7 +31,9 @@ const { title, body1, body2, body3 } = Astro.props;
     border: none;
     border-radius: 0;
     text-align: center;
-    background-image: url("/abtus-bg.png"); ;
+    background-image: url("/abtus-bg.png");
+    background-color:white;
+    background-size: cover;
   }
 
   .about-us h3 {
