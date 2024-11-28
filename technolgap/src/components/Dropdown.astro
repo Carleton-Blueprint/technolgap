@@ -1,6 +1,6 @@
 ---
-const { name, options } = Astro.props;
-let selectedOption = "YEAR";
+const { name, options, selected } = Astro.props;
+let selectedOption = selected || "YEAR";
 ---
 
 <form id="dropdown-form" method="POST">
@@ -25,7 +25,6 @@ let selectedOption = "YEAR";
     position: relative;
     width: 175px;
   }
-
   .dropdown summary {
     background-color: #2d6d68dd;
     border: 1.5px solid #fff;
@@ -37,11 +36,9 @@ let selectedOption = "YEAR";
     margin: 0;
     text-align: center;
   }
-
   .dropdown li {
     width: 80%;
   }
-
   .dropdown ul {
     position: absolute;
     margin: 0;
@@ -59,11 +56,9 @@ let selectedOption = "YEAR";
     border: none;
     text-overflow: ellipsis;
   }
-
   .option-button:hover {
     background-color: #64a8a2dd;
   }
-
   .option-button:focus {
     outline: none;
     background-color: #64a8a2dd;
