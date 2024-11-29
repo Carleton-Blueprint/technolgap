@@ -1,0 +1,44 @@
+
+<div id="coming-soon">
+    <h1 id="title">Technolgap Site: Coming Soon</h1>
+    <img id="logo" src="\logo.png" width="200px"/>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #27504c, #2f605c, #64a8a2);
+        text-align: center;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #title {
+        padding-top: 20vh;
+        font-size: 60px;
+        color: #fff;
+        margin-bottom: 5rem;
+        text-shadow: 0px 0px 10px #ffbce5;
+        -webkit-text-stroke: 0.2px #ffbce5;
+    }
+    
+    #logo {
+        transition: box-shadow 2s ease;
+        transition: scale 1s ease;
+    }
+
+    #logo:hover {
+        box-shadow: 0px 0px 20px 2px #ffcfec;
+        scale: 105%;
+        border-radius: 50%;
+    }
+
+    @media (max-width: 800px) {
+        #title {
+            font-size: 7vw;
+        }
+
+        #logo {
+            width: 25vw;
+        }
+    }
+</style>
