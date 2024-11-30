@@ -4,6 +4,7 @@ import { createClient } from "contentful";
 import type { Entry } from "contentful";
 import PageLayout from "../layouts/PageLayout.astro";
 import CardGrid from "../components/CardGrid.astro"
+import Dropdown from '../components/Dropdown.astro';
 
 const client = createClient({
   space: "33d3d7kdmbg5",
@@ -92,23 +93,21 @@ const [teamMembers, years] = await Promise.all([
 <PageLayout title="Our Team">
   <h1>Team Members for {teamYear}</h1>
   <form action={Astro.request.url} method="GET">
-    <select name="year">
-      {
-        years.map((yr) => (
-          <option value={yr} selected={yr === teamYear}>
-            {yr}
-          </option>
-        ))
-      }
-    </select>
-    <button type="submit">Show Members</button>
+    <Dropdown class="dropdown"
+      name="year"
+      options={years}
+    />
+    <!-- <button type="submit">Show Members</button> -->
   </form>
   
   <CardGrid entries={teamMembers}/>
 </PageLayout>
 
+
+
 <style>
   body {
     background-color: #fee8f5;
   }
+
 </style>
