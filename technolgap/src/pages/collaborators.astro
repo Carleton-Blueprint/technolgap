@@ -1,0 +1,82 @@
+---
+import CollabCardGrid from "../components/CollabCardGrid.astro";
+import Subheading from "../components/Subheading.astro";
+import PageLayout from "../layouts/PageLayout.astro";
+import { createClient } from "contentful";
+import type { Entry } from "contentful";
+
+
+const client = createClient({
+  space: "33d3d7kdmbg5",
+  accessToken: "00BZSByF4Gmh1S-vDtMfsmOLIdqrC8fyV404sOfIwzM",
+});
+
+interface collaborator {
+  fields: {
+    name: string;
+    logo: {
+      metadata: { tags: [] };
+      sys: object;
+      fields: {
+        title: string;
+        description: string;
+        file: {
+          url: string;
+          details: [object];
+          fileName: string;
+          contentType: string;
+        };
+      };
+    };
+    contribution: string;
+    website: string;
+    event: {
+      sys: {
+        id: string;
+      }
+      fields: { eventName: string };
+    };
+  };
+  contentTypeId: "collaborator";
+}
+
+type Collaborator = Entry<collaborator>;
+
+
+const response = await client.getEntries({
+  content_type: "collaborator",
+});
+const collaborators: Collaborator[] = response.items as Collaborator[];
+
+for (let i=0; i<5; i++){
+    collaborators.push(collaborators[0])
+}
+---
+
+<PageLayout>
+    <article id="sponsors">
+        <Subheading title="Collaborators"/>
+        <CollabCardGrid entries={collaborators}/>
+    </article>
+</PageLayout>
+
+<style>
+    #sponsors {
+        padding-top: 4rem;
+        text-align: center;
+    
+        background-image: url("/team-bg.png");
+        background-size: cover; 
+        background-position: top center; 
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        min-height: 100vh;
+        background-color: white;
+    }
+
+    @media (max-width: 770px) {
+    article {
+      background-size: 770px auto;
+    }
+  }
+</style>
