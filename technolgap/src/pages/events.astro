@@ -1,0 +1,134 @@
+---
+import { createClient } from "contentful";
+import type { Entry } from "contentful";
+import PageLayout from "../layouts/PageLayout.astro";
+import EventsGrid from "../components/EventGrid.astro";
+import Dropdown from "../components/Dropdown.astro";
+import TextBox from "../components/TextBox.astro";
+import Subheading from "../components/Subheading.astro";
+
+const client = createClient({
+  space: "33d3d7kdmbg5",
+  accessToken: "00BZSByF4Gmh1S-vDtMfsmOLIdqrC8fyV404sOfIwzM",
+});
+
+// Define the event fields interface
+interface EventFields {
+  fields: {
+    eventName: string;
+    poster: {
+      metadata: { tags: [] };
+      sys: object;
+      fields: {
+        title: string;
+        description: string;
+        file: {
+          url: string;
+          details: [object];
+          fileName: string;
+          contentType: string;
+        };
+      };
+    };
+    date: string; // Ensure date is expected to be a string
+    venue: string;
+    eventType: string;
+    eventSummary: string;
+    time: string | undefined;
+    registrationLink: string | undefined;
+  };
+  contentTypeId: "event";
+}
+type Event = Entry<EventFields>;
+// Helper function to fetch events from Contentful
+async function fetchEvents(): Promise<Event[]> {
+  const response = await client.getEntries({
+    content_type: "event",
+  });
+  return response.items as Event[];
+}
+// Utility function to compare event dates with today's date (ignoring time)
+function compareDates(eventDate: string): number {
+  const today = new Date().toISOString().split("T")[0]; // Format as YYYY-MM-DD
+
+  if (!today) {
+    throw new Error("Today is undefined, unable to compare dates.");
+  }
+  // Create a new Date object for the event date
+  const eventDateObj = new Date(eventDate);
+  // If the eventDate is invalid, return a default comparison result
+  if (isNaN(eventDateObj.getTime())) {
+    throw new Error(`Invalid date provided: ${eventDate}`);
+  }
+  // Compare event date with today
+  if (eventDate === today) return 0; // Same day
+  return eventDateObj > new Date(today) ? 1 : -1; // Future or past
+}
+// Fetch and classify events into past and upcoming
+async function getUpcomingAndPastEvents() {
+  const events = await fetchEvents();
+  // Sort events by date
+  const sortedEvents = events.sort((a, b) => {
+    const dateA =
+      a.fields.date && typeof a.fields.date === "string" ? a.fields.date : ""; // Ensure dateA is a string
+    const dateB =
+      b.fields.date && typeof b.fields.date === "string" ? b.fields.date : ""; // Ensure dateB is a string
+    return compareDates(dateA) - compareDates(dateB);
+  });
+  // Filter events into upcoming and past
+  const upcomingEvents = sortedEvents.filter(
+    (event) => compareDates(event.fields.date as unknown as string) >= 0
+  ); // On or after today
+  const pastEvents = sortedEvents.filter(
+    (event) => compareDates(event.fields.date as unknown as string) < 0
+  ); // Before today
+  return { upcomingEvents, pastEvents };
+}
+// Fetch events asynchronously in the Astro script block
+const { upcomingEvents, pastEvents } = await getUpcomingAndPastEvents();
+// Get the user-selected event type from the query string (defaults to "upcoming")
+const url = new URL(Astro.request.url);
+const eventType = url.searchParams.get("eventType") || "Upcoming";
+
+
+---
+
+<PageLayout title="Events">
+  <div>
+    <Subheading title="Events"/>
+  </div>
+
+      <TextBox heading="Join us at Technolgap events!" text="Stay updated on our latest events, workshops, and networking opportunities designed to support and empower women and non-binary individuals in tech. From panel discussions to hackathons, our events are aimed at fostering skill development, career advancement, and community engagement."/>
+    <form action={Astro.request.url} method="GET">
+      <Dropdown
+      name="eventType"
+      options={["upcoming", "past"]}
+      selected={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
+      />
+      </form>
+    <EventsGrid
+    events={eventType == "past" ? pastEvents : upcomingEvents}
+    filter={eventType.charAt(0).toUpperCase() + eventType.slice(1)}
+    />
+    
+</PageLayout>
+
+<script>
+  document.querySelector("main")?.classList.add("classic-bg")
+</script>
+
+<style>
+
+  div {
+    padding-top: 50px;
+  }
+
+    form {
+      right: 40vw;
+      padding-top: 50px;
+      margin-top: -100px;
+      margin-bottom: 100px;
+    }
+  
+
+</style>

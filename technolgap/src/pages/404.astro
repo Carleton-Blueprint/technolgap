@@ -1,21 +1,21 @@
 ---
-import ComingSoon from "../components/ComingSoon.astro";
 import "../custom-pico.css"
+import ComingSoon from "../components/ComingSoon.astro"
+import PageLayout from "../layouts/PageLayout.astro"
+
+const pathname = Astro.url.pathname;
+const validPaths = ["Get-Involved", "Chapters", "Sponsors", "Collaborators", "Speakers", "Volunteers", "Contact-Us", "Code-of-Conduct", "Privacy-Policy"]
+let title = "404 Error"
+let subtitle = "Page Not Found"
+for (const path of validPaths) {
+  if (pathname.slice(1) == path.toLowerCase()){
+    title = path + " page coming soon"
+    subtitle = pathname + " is currently under construction. Stay tuned for updates!"
+    break 
+  }
+}
 ---
 
-<html>
-  <head>
-    <title>Technolgap</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Empowering women and non-binary individuals in Canada's tech industry through opportunities and community support."
-    />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" href="/favicon.ico" />
-  </head>
-  <body>
-    <ComingSoon title="Technolgap Site: Coming Soon" subtitle="We are currently working hard to bring this site to you. Stay tuned for updates!"/>
-  </body>
-</html>
+<PageLayout title={title}>
+  <ComingSoon title={title} subtitle={subtitle}/>
+</PageLayout>
