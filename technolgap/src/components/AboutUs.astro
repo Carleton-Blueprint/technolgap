@@ -1,0 +1,111 @@
+
+---
+import Subheading from "../components/Subheading.astro";
+import Statistics from "./Statistics.astro";
+
+interface Props {
+  title: string;
+  body1: string;
+  body2: string;
+  body3: string;
+}
+
+const { title, body1, body2, body3 } = Astro.props;
+---
+
+<div class="about-us-statistics">
+  <article id="about-us">
+    <Subheading title={title} />
+    <h3>
+      The <span class="pink-span">past,</span>
+      <span class="pink-span">present,</span> and
+      <span class="pink-span">future</span> of Technolgap!
+    </h3>
+    <p>{body1}</p>
+    <p>{body2}</p>
+    <p>{body3}</p>
+  </article>
+  <Statistics
+    number1="500 +"
+    value1="members"
+    number2="35 +"
+    value2="campuses"
+    number3="25 +"
+    value3="speakers"
+    number4="150 +"
+    value4="mentorship program participants"
+  />
+</div>
+
+<style>
+  .about-us-statistics {
+    /* background-image: linear-gradient(#fff, #f7e1ee); */
+    padding-top: 0px;
+    box-shadow: none;
+  }
+
+  article {
+    padding-top: 8rem;
+    padding-bottom: 5rem;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    text-align: center;
+    /* background-image: url("/abtus-bg.png"); */
+    background-size: cover;
+
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+  }
+
+  #about-us{
+    box-shadow: none;
+  }
+
+  #about-us h3 {
+    font-size: 30px;
+    margin-bottom: 3rem;
+    color: #2f605c;
+  }
+
+  #about-us p {
+    color: #2f605c;
+    font-size: 18px;
+    text-align: left;
+    margin-left: 12rem;
+    margin-bottom: 2rem;
+    margin-right: 12rem;
+  }
+
+  #about-us .pink-span {
+    color: #ffbce5;
+  }
+
+  @media (max-width: 1000px) {
+
+    #about-us p {
+      font-size: 16px;
+      margin-left: 8rem;
+      margin-right: 8rem;
+    }
+  }
+
+  @media (max-width: 800px) {
+    
+    #about-us h3 {
+      font-size: 20px;
+      margin-bottom: 2rem;
+    }
+
+    #about-us p {
+      font-size: 14px;
+      margin-left: 4rem;
+      margin-right: 4rem;
+    }
+  }
+</style>
