@@ -99,7 +99,7 @@ const eventType = url.searchParams.get("eventType") || "Upcoming";
   </div>
 
       <TextBox heading="Join us at Technolgap events!" text="Stay updated on our latest events, workshops, and networking opportunities designed to support and empower women and non-binary individuals in tech. From panel discussions to hackathons, our events are aimed at fostering skill development, career advancement, and community engagement."/>
-    <form action={Astro.request.url} method="GET">
+      <form action={Astro.request.url.replace(/^http:/, "https:")} method="GET">
       <Dropdown
       name="eventType"
       options={["upcoming", "past"]}

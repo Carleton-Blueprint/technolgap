@@ -94,11 +94,10 @@ const selectedOption = teamYear
 <PageLayout title="Our Team">
   <article class="our-team classic-bg">
     <Subheading title={"Our Team"} />
-    <form action={Astro.request.url} method="GET">
-      <!-- <div class="dropdown-container"> -->
+    <form action={Astro.request.url.replace(/^http:/, "https:")} method="GET">
+
         <Dropdown name="year" options={years} selected={teamYear}/>
         
-      <!-- </div> -->
     </form>
     <CardGrid entries={teamMembers}/>
   </article>
