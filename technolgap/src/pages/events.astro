@@ -36,6 +36,7 @@ interface EventFields {
     eventSummary: string;
     time: string | undefined;
     registrationLink: string | undefined;
+    partOfSeries: boolean
   };
   contentTypeId: "event";
 }
@@ -44,6 +45,7 @@ type Event = Entry<EventFields>;
 async function fetchEvents(): Promise<Event[]> {
   const response = await client.getEntries({
     content_type: "event",
+    "fields.partOfSeries": "false"
   });
   return response.items as Event[];
 }
