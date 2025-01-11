@@ -44,18 +44,24 @@ interface collaborator {
 type Collaborator = Entry<collaborator>;
 
 
-const response = await client.getEntries({
+const responseCollab = await client.getEntries({
   content_type: "collaborator",
 });
-const collaborators: Collaborator[] = response.items as Collaborator[];
+const collaborators: Collaborator[] = responseCollab.items as Collaborator[];
 
+
+const responseForm = await client.getEntries({
+  content_type: "contact",
+  "fields.name": "collabInterestForm"
+});
+const form = responseForm.items[0];
 ---
 
 <PageLayout>
     <article class="classic-bg">
         <Subheading title="Collaborators"/>
         <TextBox heading="Our Valued Collaborators!" text="We proudly collaborate with organizations and individuals who share our vision of fostering diversity and inclusion in tech. Submit an interest form below!"/>
-          <a id="link" href="#" target="_blank">INTEREST FORM</a>
+          <a id="link" href=`${form.fields.content}` target="_blank">INTEREST FORM</a>
         <CollabCardGrid entries={collaborators}/>
         <div id="why-collab">
           <h1>Why Collaborate with Us?</h1>
