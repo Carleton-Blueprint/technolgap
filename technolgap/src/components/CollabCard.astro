@@ -25,9 +25,9 @@ const { name, logo, website, contribution, eventName, eventId } = Astro.props;
         {contribution}
         <br><br>
         {eventName != "none" && (<span class="bio">Check out our event collaboration:<br/><a class="event-link" href={"events/"+eventId}>{eventName}</a></span>)}
-      </h5>
-      {
-        website != "none" && (
+        
+        {
+          website != "none" && (
           <p>
             <a href={website} target="_blank">
               <img
@@ -36,11 +36,12 @@ const { name, logo, website, contribution, eventName, eventId } = Astro.props;
                 class="card-web-logo"
                 onmouseover="this.src='/web-logo-pink.png'"
                 onmouseout="this.src='/web-logo-black.png'"
-              />
+                />
             </a>
           </p>
         )
       }
+      </h5>
     </section>
   </section>
 </article>
@@ -129,6 +130,7 @@ const { name, logo, website, contribution, eventName, eventId } = Astro.props;
   h5,
   p {
     color: white;
+    font-size: 17px;
   }
 
   .bio {
@@ -149,7 +151,6 @@ const { name, logo, website, contribution, eventName, eventId } = Astro.props;
   }
 
   .event-link:hover{
-    /* font-size: 22px; */
     color: #fee8f5;
     text-decoration-color: #fee8f5;
   }
