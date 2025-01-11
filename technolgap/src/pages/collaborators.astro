@@ -49,9 +49,6 @@ const response = await client.getEntries({
 });
 const collaborators: Collaborator[] = response.items as Collaborator[];
 
-for (let i=0; i<5; i++){
-    collaborators.push(collaborators[0])
-}
 ---
 
 <PageLayout>
