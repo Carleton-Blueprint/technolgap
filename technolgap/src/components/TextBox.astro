@@ -1,0 +1,60 @@
+---
+const { heading, text } = Astro.props;
+---
+
+<div>
+
+  <p class="heading">
+    <span class="highlight">{heading}</span>
+    {text}
+  </p>
+</div>
+
+<style>
+
+  div {
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  .heading {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #fff;
+    background-color: #2d6d68;
+    display: inline-block;
+    padding: 15px 30px 30px 30px;
+    border-radius: 50px;
+    max-width: 800px;
+    box-shadow: 10px 10px 0px #f7deed;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .highlight {
+    font-size: 26px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+
+  @media (max-width: 800px) {
+        .highlight {
+            font-size: 23px;
+        }
+        .heading {
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .highlight {
+            font-size: 20px;
+        }
+        .heading {
+            font-size: 12px;
+            padding: 15px 20px 20px 20px;
+        }
+    }
+</style>
