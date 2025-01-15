@@ -6,6 +6,12 @@ import PageLayout from "../layouts/PageLayout.astro";
 import TextBox from "../components/TextBox.astro";
 import Card from "../components/Card.astro";
 import Subheading from "../components/Subheading.astro";
+
+const client = createClient({
+  space: import.meta.env.CONTENTFUL_SPACE_ID,
+  accessToken: import.meta.env.CONTENTFUL_ACCESS_TOKEN,
+});
+
 ---
 
 <PageLayout title="Join Us">
@@ -15,8 +21,7 @@ import Subheading from "../components/Subheading.astro";
       heading="Become part of Technolgap team!"
       text="Are you passionate about bridging the gender gap in the technology sector? Join us at Technolgap and be part of a supportive community dedicated to empowering women and non-binary individuals in tech. Whether you're a student, professional, or ally, there's a place for you in our community."
     />
-    <a id="link" href="https://docs.google.com/forms/d/e/1FAIpQLScP0QNFsZIAPL7fGmrHAxaSYYmzQ7w2YVZqsoipAaAnv2hkNQ/viewform" target="_blank">MEMBERSHIP FORM</a>
-    <img id="cursor" alt="cursor icon" src="/cursor.png" />
+    <a id="link" class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScP0QNFsZIAPL7fGmrHAxaSYYmzQ7w2YVZqsoipAaAnv2hkNQ/viewform" target="_blank">MEMBERSHIP FORM</a>
     
     <div id="connect">
         <Subheading title="Connect with Us"/>
@@ -99,29 +104,8 @@ import Subheading from "../components/Subheading.astro";
     }
 
     #link {
-        text-decoration: none;
-        font-weight: 600;
-        background-color: #2d6d68;
-        padding: 20px 50px;
-        font-size: 28px;
-        border-radius: 15px;
-        color: white;
         margin-top: 100px;
-        display: block;
         max-width: 200px;
-        text-align: center;
-        box-shadow: 7px 7px 0 0 #60a0a1;
-    }
-
-    #link:hover {
-        cursor: pointer;
-        box-shadow: none;
-    }
-
-    #cursor {
-        width: 70px;
-        margin-top: -20px;
-        margin-left: 300px;
     }
 
     @media (max-width: 500px) {

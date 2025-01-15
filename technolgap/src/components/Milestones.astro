@@ -4,8 +4,8 @@ import { createClient } from "contentful";
 import Subheading from "./Subheading.astro";
 
 const client = createClient({
-  space: "33d3d7kdmbg5",
-  accessToken: "00BZSByF4Gmh1S-vDtMfsmOLIdqrC8fyV404sOfIwzM",
+  space: import.meta.env.CONTENTFUL_SPACE_ID,
+  accessToken: import.meta.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
 // Fetch milestones from Contentful
