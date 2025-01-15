@@ -102,6 +102,7 @@
 </div>
 
 <style>
+
   /* DESKTOP Navbar style */
 
   .logo-button {
@@ -124,13 +125,15 @@
   .desktop-navbar {
     background-color: #2d6d68;
     top: 0;
-    display: flex;
+    display: flex;1
     align-items: center; /* Center items vertically */
     height: 85px; /* Set a fixed height */
     opacity: 1;
     z-index: 5000;
+    position: relative;
+    box-shadow: 0 0 7px 3px rgb(0, 0, 0);
   }
-
+  
   .desktop-navbar ul {
     list-style-type: none;
     margin: 0;
@@ -140,10 +143,12 @@
   }
 
   .logo {
-    width: 120px;
+    width: 75px;
     height: auto;
     display: block;
     margin-right: 20px;
+    padding: 5px;
+    padding-left: 20px;
   }
 
   .desktop-navbar li {
@@ -227,6 +232,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
   }
 
   .menu-button {
@@ -353,9 +359,6 @@
     .desktop-navbar {
       width: 1500px;
     }
-    .logo img {
-      /* margin-right: 350px; */
-    }
     .desktop-dropdown {
       white-space: nowrap;
     }
@@ -396,9 +399,6 @@
   }
   
   @media (min-width: 1024px) and (max-width: 1024px) {
-    .desktop-navbar {
-      /* width: 100%; */
-    }
     
     .logo img {
       width: 99px;
@@ -428,9 +428,6 @@
       display: flex;
       /* width: 835px; */
     }
-    .logo img {
-      /* margin-right: 100px; */
-    }
   }
   
   @media (max-width: 825px) {
@@ -458,10 +455,6 @@
       width: 1300px;
     }
     
-    .logo img {
-      /* width: 100px; */
-      /* margin-right: 300px; */
-    }
     .desktop-dropdown {
       white-space: nowrap;
     }

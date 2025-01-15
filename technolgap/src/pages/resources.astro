@@ -4,7 +4,7 @@ import TextBox from "../components/TextBox.astro";
 import Subheading from "../components/Subheading.astro";
 ---
 
-<PageLayout title="Resources">
+<PageLayout title="Resources" sparklesTop={false} sparklesBottom={true}>
   <div id="resources" class="classic-bg">
     <Subheading title="Resources" />
     <TextBox
@@ -38,9 +38,11 @@ import Subheading from "../components/Subheading.astro";
 </script>
 
 <style>
+
+
   #resources {
     min-height: 100vh;
-    padding-top: 50px;
+    padding: 1px;
   }
 
 

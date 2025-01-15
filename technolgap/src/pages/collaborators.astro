@@ -57,7 +57,7 @@ const responseForm = await client.getEntries({
 const form = responseForm.items[0];
 ---
 
-<PageLayout>
+<PageLayout title="Collaborators" sparklesTop={false} sparklesBottom={true}>
     <article class="classic-bg">
         <Subheading title="Collaborators"/>
         <TextBox heading="Our Valued Collaborators!" text="We proudly collaborate with organizations and individuals who share our vision of fostering diversity and inclusion in tech. Submit an interest form below!"/>
@@ -187,7 +187,6 @@ const form = responseForm.items[0];
   }
 
     article {
-    padding-top: 5rem;
     margin-bottom: 0;
     border: none;
     border-radius: 0;
