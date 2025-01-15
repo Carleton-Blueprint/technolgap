@@ -4,6 +4,7 @@ import type { Entry } from "contentful";
 import CardGrid from "../components/CardGrid.astro"
 import PageLayout from "../layouts/PageLayout.astro";
 import TextBox from "../components/TextBox.astro";
+import Card from "../components/Card.astro";
 import Subheading from "../components/Subheading.astro";
 ---
 
@@ -19,13 +20,72 @@ import Subheading from "../components/Subheading.astro";
     
     <div id="connect">
         <Subheading title="Connect with Us"/>
+        <div class="grid">    
+        <p>
+            <a href="https://www.instagram.com/technolgap/?locale=us&hl=am-et" target="_blank">
+                <img
+                src="/discord-black-logo3.png"
+                alt="discord logo"
+                class="card-linkedin-logo"
+                onmouseover="this.src='/discord-pink-logo.png'"
+                onmouseout="this.src='/discord-black-logo3.png'"
+                />
+            </a>
+        </p>     
+        <p>
+            <a href="https://www.instagram.com/technolgap/?locale=us&hl=am-et" target="_blank">
+                <img
+                src="/ig-black-logo2.png"
+                alt="instagram logo"
+                class="card-linkedin-logo"
+                onmouseover="this.src='/ig-pink-logo.png'"
+                onmouseout="this.src='/ig-black-logo2.png'"
+                />
+            </a>
+        </p>             
+        <p>
+            <a href="https://www.linkedin.com/company/technolgap/posts/?feedView=all" target="_blank">
+                <img
+                src="/linkedin-logo-black.png"
+                alt="linkedin logo"
+                class="card-linkedin-logo"
+                onmouseover="this.src='/linkedin-logo-pink.png'"
+                onmouseout="this.src='/linkedin-logo-black.png'"
+                />
+            </a>
+        </p> 
+        <p>
+            <a href="https://www.facebook.com/technolgap/" target="_blank">
+                <img
+                src="/facebook-black-logo.png"
+                alt="facebook logo"
+                class="card-linkedin-logo"
+                onmouseover="this.src='/facebook-pink-logo.png'"
+                onmouseout="this.src='/facebook-black-logo.png'"
+                />
+            </a>
+        </p>  
     </div>
 </div>
 </PageLayout>
 
 <style>
-    div {
+    #join {
         padding-top: 50px;
+    }
+
+    .grid {
+      grid-template-columns: repeat(2, minmax(11rem, 14rem));
+      padding-bottom: 4rem;
+    }
+
+    p {
+    padding: 0;
+      margin: 0;
+    }
+
+    .card-linkedin-logo {
+        background-color: #2d6d68;
     }
 
     #connect {
@@ -61,6 +121,12 @@ import Subheading from "../components/Subheading.astro";
         width: 70px;
         margin-top: -20px;
         margin-left: 300px;
+    }
+
+    @media (max-width: 500px) {
+        .grid {
+            grid-template-columns: repeat(2, minmax(6rem, 9rem));
+        }
     }
 
     @media (max-width: 450px) {
