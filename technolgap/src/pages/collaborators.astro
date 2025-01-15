@@ -57,11 +57,11 @@ const responseForm = await client.getEntries({
 const form = responseForm.items[0];
 ---
 
-<PageLayout title="Collaborators" sparklesTop={false} sparklesBottom={true}>
+<PageLayout title="Collaborators">
     <article class="classic-bg">
         <Subheading title="Collaborators"/>
         <TextBox heading="Our Valued Collaborators!" text="We proudly collaborate with organizations and individuals who share our vision of fostering diversity and inclusion in tech. Submit an interest form below!"/>
-          <a id="link" href=`${form.fields.content}` target="_blank">INTEREST FORM</a>
+          <a id="link" class="button" href=`${form.fields.content}` target="_blank">INTEREST FORM</a>
         <CollabCardGrid entries={collaborators}/>
         <div id="why-collab">
           <h1>Why Collaborate with Us?</h1>
@@ -168,25 +168,11 @@ const form = responseForm.items[0];
   }
 
   #link {
-    margin: 100px auto 50px auto;
-    text-decoration: none;
-    font-weight: 600;
-    background-color: #2d6d68;
-    padding: 20px 50px;
-    font-size: 28px;
-    border-radius: 15px;
-    color: white;
-    display: block;
     max-width: 300px;
-    text-align: center;
-    box-shadow: 7px 7px 0 0 #60a0a1;
+    margin: 100px auto 50px auto;
   }
   
-  #link:hover {
-    box-shadow: none;
-  }
-
-    article {
+  article {
     margin-bottom: 0;
     border: none;
     border-radius: 0;

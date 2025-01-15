@@ -5,17 +5,17 @@ import Subheading from "../components/Subheading.astro";
 ---
 
 <PageLayout title="Resources" sparklesTop={false} sparklesBottom={true}>
-  <div id="resources" class="classic-bg">
+  <div id="resources" >
     <Subheading title="Resources" />
     <TextBox
       heading="Discover Technolgap Resources!"
       text="Welcome to our Resources page to explore a curated collection of resources tailored to women and non-binary individuals in tech. Whether you're looking for educational materials, job opportunities, or networking platforms, we've got you covered."
     />
-    <div id="link">
+    <!-- <div id="link"> -->
 
-      <a href="https://mahogany-verbena-d62.notion.site/e8ce1087385b4314bce51cc1b21d66ad?v=f28da2d7f19143d3aed191f96b236cfa&pvs=74" target="_blank">RESOURCES</a>
+      <a id="link" class="button" href="https://mahogany-verbena-d62.notion.site/e8ce1087385b4314bce51cc1b21d66ad?v=f28da2d7f19143d3aed191f96b236cfa&pvs=74" target="_blank">RESOURCES</a>
       <img id="cursor" alt="cursor icon" src="/cursor.png" />
-    </div>
+    <!-- </div> -->
   </div>
 </PageLayout>
 
@@ -43,29 +43,16 @@ import Subheading from "../components/Subheading.astro";
   #resources {
     min-height: 100vh;
     padding: 1px;
+    background-image: linear-gradient(#ffeaf8, #fff);
   }
 
 
-  #link > a {
+  #link {
     margin: 0 auto;
-    text-decoration: none;
-    font-weight: 600;
-    background-color: #2d6d68;
-    padding: 20px 50px;
-    font-size: 28px;
-    border-radius: 15px;
-    color: white;
     margin-top: 100px;
-    display: block;
     max-width: 200px;
-    text-align: center;
-    box-shadow: 7px 7px 0 0 #60a0a1;
   }
   
-  #link > a:hover {
-    cursor: pointer;
-    box-shadow: none;
-  }
   
   #cursor {
     display: block;
@@ -74,7 +61,6 @@ import Subheading from "../components/Subheading.astro";
     padding-left: 300px;
     width: 70px;
     margin-top: -20px;
-    /* margin-left: 300px; */
   }
 
   @media (max-width: 450px) {
