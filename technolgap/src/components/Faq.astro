@@ -1,0 +1,72 @@
+---
+interface FaqProps {
+  faqList: { question: string; answer: string }[];
+}
+
+const { faqList } = Astro.props;
+---
+
+<div class="faq-container">
+  {faqList.map((faq: { question: string; answer: string }, index: number) => (
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>{faq.question}</h3>
+        <span class="arrow">&#9660;</span> <!-- Arrow icon for expansion -->
+      </div>
+      <div class="faq-answer">
+        <p>{faq.answer}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 70%; /* Set width to 70% of the page */
+      max-width: 900px; /* Optional: Add a max-width to limit the size */
+      margin: 0 auto; /* Center align horizontally */
+    }
+  
+    .faq-item {
+      background-color: rgba(45, 109, 104, 0.9); /* Solid color with opacity */
+      padding: 1.5rem; /* Add padding for wider appearance */
+      border-radius: 8px;
+      border: 1px solid rgba(45, 109, 104, 0.9);
+    }
+  
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+  
+    .faq-answer {
+      display: none;
+      padding-top: 1rem;
+    }
+  
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+  
+    .faq-item.open .arrow {
+      transform: rotate(180deg);
+    }
+  </style>
+  
+<script>
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const toggleButton = item.querySelector('.faq-question');
+    
+    // Ensure toggleButton is not null before adding the event listener
+    if (toggleButton) {
+      toggleButton.addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    }
+  });
+</script>
