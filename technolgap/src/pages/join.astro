@@ -12,6 +12,14 @@ const client = createClient({
   accessToken: import.meta.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
+const response = await client.getEntries({
+  content_type: "contact",
+});
+const contacts = response.items;
+const linkedIn = contacts.find(obj => obj.fields.name == 'linkedIn')?.fields.content
+const instagram = contacts.find(obj => obj.fields.name == 'instagram')?.fields.content
+const discord = contacts.find(obj => obj.fields.name == 'discord')?.fields.content
+const facebook = contacts.find(obj => obj.fields.name == 'facebook')?.fields.content
 ---
 
 <PageLayout title="Join Us">
@@ -27,7 +35,7 @@ const client = createClient({
         <Subheading title="Connect with Us"/>
         <div class="grid">    
         <p>
-            <a href="https://www.instagram.com/technolgap/?locale=us&hl=am-et" target="_blank">
+            <a href={discord as string} target="_blank">
                 <img
                 src="/discord-black-logo3.png"
                 alt="discord logo"
@@ -38,7 +46,7 @@ const client = createClient({
             </a>
         </p>     
         <p>
-            <a href="https://www.instagram.com/technolgap/?locale=us&hl=am-et" target="_blank">
+            <a href={instagram as string} target="_blank">
                 <img
                 src="/ig-black-logo2.png"
                 alt="instagram logo"
@@ -49,7 +57,7 @@ const client = createClient({
             </a>
         </p>             
         <p>
-            <a href="https://www.linkedin.com/company/technolgap/posts/?feedView=all" target="_blank">
+            <a href={linkedIn as string} target="_blank">
                 <img
                 src="/linkedin-logo-black.png"
                 alt="linkedin logo"
@@ -60,7 +68,7 @@ const client = createClient({
             </a>
         </p> 
         <p>
-            <a href="https://www.facebook.com/technolgap/" target="_blank">
+            <a href={facebook as string} target="_blank">
                 <img
                 src="/facebook-black-logo.png"
                 alt="facebook logo"
