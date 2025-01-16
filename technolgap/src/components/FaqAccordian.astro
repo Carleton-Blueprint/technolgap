@@ -1,6 +1,7 @@
 ---
 interface FaqProps {
-  faqList: { question: string; answer: string }[];
+  faqList: FaqFields[];
+  grey: boolean;
 }
 
 interface FaqFields {
@@ -11,18 +12,18 @@ interface FaqFields {
   contentTypeId: "faq";
 }
 
-const { faqList } = Astro.props;
-console.log(faqList)
+const { faqList, grey=false } = Astro.props;
+console.log(grey)
 ---
 
 <div class="faq-container">
   {faqList.map((faq: FaqFields, index: number) => (
-    <div class="faq-item">
+    <div class={(grey ? "grey " : "green ")+"faq-item"}>
       <div class="faq-question">
         <h3>{faq.fields.question}</h3>
         <span class="arrow">&#9660;</span>
       </div>
-      <div class="faq-answer">
+      <div class=" faq-answer">
         <p>{faq.fields.answer}</p>
       </div>
     </div>
@@ -30,6 +31,16 @@ console.log(faqList)
 </div>
 
 <style>
+
+  .grey {
+    background-color: #5A6160; !important
+  }
+  
+  .green {
+    background-color: #2d6d68; 
+
+  }
+
     .faq-container {
       display: flex;
       flex-direction: column;
@@ -44,9 +55,12 @@ console.log(faqList)
       margin: 0;
       color:white; 
     }
+
+    p {
+      font-size: 17px;
+    }
     
     .faq-item {
-      background-color: #2d6d68; 
       padding: 1.5rem; 
       border-radius: 15px;
     }
