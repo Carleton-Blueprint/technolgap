@@ -2,16 +2,15 @@
 import type { Entry } from 'contentful';
 
 import { createClient } from "contentful";
-import Faq from "../components/Faq.astro";
 import PageLayout from "../layouts/PageLayout.astro";
-import TextBox from "../components/TextBox.astro";
 import Subheading from "../components/Subheading.astro";
+import FaqAccordian from '../components/FaqAccordian.astro';
 
 // Assuming `faqList` is fetched from an API or defined here
 // Contentful client setup
 const client = createClient({
-  space: "33d3d7kdmbg5", // Replace with your Contentful space ID
-  accessToken: "00BZSByF4Gmh1S-vDtMfsmOLIdqrC8fyV404sOfIwzM", // Replace with your Contentful access token
+  space: "33d3d7kdmbg5",
+  accessToken: "00BZSByF4Gmh1S-vDtMfsmOLIdqrC8fyV404sOfIwzM",
 });
 
 // Define the FAQ fields interface
@@ -37,21 +36,31 @@ const faqList = await fetchFaqs();
 ---
 
 <PageLayout title="Frequently Asked Questions">
+  <article>
+
     <div>
       <Subheading title="Frequently Asked Questions" />
     </div>
-  
-   
-  
     <!-- Pass the fetched faqList to the Faq component -->
-    <Faq faqList={faqList} />
+    <FaqAccordian faqList={faqList}/>
+  </article>
   </PageLayout>
-  <script>
+
+  <!-- <script>
     document.querySelector("main")?.classList.add("classic-bg");
-  </script>
+  </script> -->
   
   <style>
+
+    article {
+      background-image: linear-gradient(#fff, #ffeaf8);
+      margin: 1px;
+      padding: 0;
+    }
+
     div {
-      padding-top: 50px;
+      background-image: linear-gradient(90deg, #2d6d68, #77B1AC);
+      padding: 20px 0;
+      margin-bottom: 100px;
     }
   </style>

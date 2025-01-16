@@ -3,18 +3,27 @@ interface FaqProps {
   faqList: { question: string; answer: string }[];
 }
 
+interface FaqFields {
+  fields: {
+    question: string;
+    answer: string;
+  };
+  contentTypeId: "faq";
+}
+
 const { faqList } = Astro.props;
+console.log(faqList)
 ---
 
 <div class="faq-container">
-  {faqList.map((faq: { question: string; answer: string }, index: number) => (
+  {faqList.map((faq: FaqFields, index: number) => (
     <div class="faq-item">
       <div class="faq-question">
-        <h3>{faq.question}</h3>
-        <span class="arrow">&#9660;</span> <!-- Arrow icon for expansion -->
+        <h3>{faq.fields.question}</h3>
+        <span class="arrow">&#9660;</span>
       </div>
       <div class="faq-answer">
-        <p>{faq.answer}</p>
+        <p>{faq.fields.answer}</p>
       </div>
     </div>
   ))}
@@ -28,15 +37,20 @@ const { faqList } = Astro.props;
       width: 70%; /* Set width to 70% of the page */
       max-width: 900px; /* Optional: Add a max-width to limit the size */
       margin: 0 auto; /* Center align horizontally */
+      padding-bottom: 100px;
     }
-  
+
+    h3, p {
+      margin: 0;
+      color:white; 
+    }
+    
     .faq-item {
-      background-color: rgba(45, 109, 104, 0.9); /* Solid color with opacity */
-      padding: 1.5rem; /* Add padding for wider appearance */
-      border-radius: 8px;
-      border: 1px solid rgba(45, 109, 104, 0.9);
+      background-color: #2d6d68; 
+      padding: 1.5rem; 
+      border-radius: 15px;
     }
-  
+    
     .faq-question {
       display: flex;
       justify-content: space-between;
