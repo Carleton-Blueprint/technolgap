@@ -96,7 +96,7 @@ import Subheading from "../components/Subheading.astro";
     border-radius: 20px;
     row-gap: 5px;
     box-shadow: 0 7px 10px 1px #898989;
-    margin: 0 50px;
+    margin: 0 40px;
     border: solid 5px #fee8f5;
     overflow: hidden;
   }
@@ -113,19 +113,10 @@ import Subheading from "../components/Subheading.astro";
     color: #ffffff;
     font-size: 18px;
     text-align: left;
-    margin-left: 12rem;
+    margin-left: 10rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    margin-right: 12rem;
-  }
-  #privacy-policy p-bullet {
-    color: #ffffff;
-    font-size: 18px;
-    text-align: left;
-    margin-left: 12rem;
-    /* margin-top: 2rem; */
-    /* margin-bottom: 2rem; */
-    margin-right: 12rem;
+    margin-right: 10rem;
   }
   #privacy-policy bullet {
     display: list-item;
@@ -151,11 +142,26 @@ import Subheading from "../components/Subheading.astro";
       margin-left: 5rem;
       margin-right: 5rem;
     }
+    #privacy-policy bullet {
+      margin-left: 6rem;
+    }
+  }
+  @media (max-width: 550px) {
+    #code-of-conduct p,
+    #code-of-conduct bullet{
+      margin: 1rem;
+    }
+    #code-of-conduct bullet {
+      margin-left: 1rem;
+    }
   }
   @media (max-width: 450px) {
     #privacy-policy p,
     #privacy-policy bullet {
       margin: 1rem;
+    }
+    #privacy-policy bullet {
+      margin: 2rem;
     }
   }
 </style>
