@@ -1,0 +1,160 @@
+---
+import { createClient } from "contentful";
+import type { Entry } from "contentful";
+import PageLayout from "../layouts/PageLayout.astro";
+import Dropdown from "../components/Dropdown.astro";
+import TextBox from "../components/TextBox.astro";
+import Subheading from "../components/Subheading.astro";
+
+const client = createClient({
+  space: import.meta.env.CONTENTFUL_SPACE_ID,
+  accessToken: import.meta.env.CONTENTFUL_ACCESS_TOKEN,
+});
+
+
+interface SponsorFields {
+  fields: {
+    name: string;
+    logo: {
+      fields: {
+        file: {
+          url: string;
+        };
+      };
+    };
+    sponsorshipLevel: string;
+    current: boolean; 
+  };
+  contentTypeId: "sponsor";
+}
+type Sponsor = Entry<SponsorFields>;
+
+
+async function fetchSponsors(): Promise<Sponsor[]> {
+  const response = await client.getEntries({
+    content_type: "sponsor",
+  });
+  return response.items as Sponsor[];
+}
+
+
+async function getCurrentAndPastSponsors() {
+  const sponsors = await fetchSponsors();
+
+  const currentSponsors = sponsors.filter((sponsor) => sponsor.fields.current === true);
+  const pastSponsors = sponsors.filter((sponsor) => sponsor.fields.current === false);
+
+  return { currentSponsors, pastSponsors };
+}
+
+const { currentSponsors, pastSponsors } = await getCurrentAndPastSponsors();
+
+const url = new URL(Astro.request.url);
+const sponsorType = url.searchParams.get("sponsorType") || "current";
+---
+<PageLayout title="Sponsors">
+  <div>
+    <Subheading title="Sponsors" />
+  </div>
+
+  <TextBox 
+    heading="Our Generous Sponsors" 
+    text="We are incredibly grateful for the support of our sponsors who believe in Technolgap's mission. Their contributions help us drive positive change in the tech industry." 
+  />
+
+  <form action={Astro.request.url} method="GET">
+    <Dropdown
+      name="sponsorType"
+      options={["current", "past"]}
+      selected={sponsorType.charAt(0).toUpperCase() + sponsorType.slice(1)}
+    />
+  </form>
+
+  <div class="sponsors-grid">
+    {sponsorType === "current" ? (
+      <>
+        {currentSponsors.map((sponsor) => (
+          <div class="sponsor-card" key={sponsor.sys.id}>
+            <img src={sponsor.fields.logo.fields.file.url} alt={sponsor.fields.name} />
+            <h3>{sponsor.fields.name}</h3>
+            <p>{sponsor.fields.sponsorshipLevel}</p>
+          </div>
+        ))}
+      </>
+    ) : (
+      <>
+        {pastSponsors.map((sponsor) => (
+          <div class="sponsor-card" key={sponsor.sys.id}>
+            <img src={sponsor.fields.logo.fields.file.url} alt={sponsor.fields.name} />
+            <h3>{sponsor.fields.name}</h3>
+            <p>{sponsor.fields.sponsorshipLevel}</p>
+          </div>
+        ))}
+      </>
+    )}
+  </div>
+
+  <TextBox 
+  heading="Why Sponsor Us?" 
+  text=" ★ Access to a Talented Network ★ Promote Diversity and Inclusion ★ Positive Brand Association" 
+  class="why-sponsor-textbox"
+/>
+
+<div style="height: 50px;"></div>
+
+</PageLayout>
+
+<script>
+  document.querySelector("main")?.classList.add("classic-bg");
+</script>
+
+<style>
+    div {
+    padding-top: 1px;
+  }
+
+    form {
+      right: 40vw;
+      padding-top: 50px;
+      margin-top: -100px;
+      margin-bottom: 100px;
+    }
+  
+    .sponsor-card {
+  background: none; 
+  border: none;
+  box-shadow: none; 
+  padding: 0; 
+  margin: 10px;
+  text-align: center; 
+}
+
+.sponsor-card img {
+  display: block; 
+  margin: 0 auto;
+  width: auto; 
+  max-width: 150px; 
+  height: auto; 
+  background: none; 
+  border: none; 
+}
+.sponsor-card h3 {
+  color: #2d6d68; 
+  font-size: 1.2em; 
+  margin: 10px 0; 
+}
+
+.sponsor-card p {
+  color: #2d6d68;
+  font-size: 1em; 
+  margin: 5px 0;
+}
+
+.why-sponsor-textbox {
+  max-width: 500px; 
+  margin: 0 auto;  
+  padding: 20px;    
+  font-size: 0.9em; 
+}
+
+</style>
