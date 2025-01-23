@@ -1,15 +1,23 @@
 ---
-const { heading, text, className='' } = Astro.props;
+const { heading, text, className='', description=null } = Astro.props;
 ---
 
 <div class={`textbox ${className}`}>
   <p class="heading">
     <span class="highlight">{heading}</span>
     {text}
+    {description ? (<br/><span>{description.map((d) => (
+      <span class="descrip">{d}</span><br/>
+    ))}</span>): ''}
   </p>
 </div>
 
 <style>
+  .descrip{
+    text-align: left;
+    display: block;
+    font-weight: bold;
+  }
   div {
     text-align: center;
     padding: 0 15px;
