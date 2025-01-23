@@ -1,9 +1,8 @@
 ---
-const { heading, text } = Astro.props;
+const { heading, text, className='' } = Astro.props;
 ---
 
-<div>
-
+<div class={`textbox ${className}`}>
   <p class="heading">
     <span class="highlight">{heading}</span>
     {text}
@@ -11,7 +10,6 @@ const { heading, text } = Astro.props;
 </div>
 
 <style>
-
   div {
     text-align: center;
     padding: 0 15px;
