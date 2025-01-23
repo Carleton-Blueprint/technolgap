@@ -60,6 +60,7 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
   <TextBox 
     heading="Our Generous Sponsors" 
     text="We are incredibly grateful for the support of our sponsors who believe in Technolgap's mission. Their contributions help us drive positive change in the tech industry." 
+    className="topTextbox"
   />
 
   <form action={Astro.request.url} method="GET">
@@ -93,10 +94,11 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
       </>
     )}
   </div>
-
+ 
   <TextBox 
-  heading="Why Sponsor Us?" 
-  text=" ★ Access to a Talented Network ★ Promote Diversity and Inclusion ★ Positive Brand Association" 
+  heading= "Why Sponsor Us?"
+  text="★ Access to a Talented Network ★ Promote Diversity and Inclusion ★ Positive Brand Association" 
+  className="bottomTextbox"
 />
 
 <div style="height: 50px;"></div>
@@ -149,5 +151,17 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
   margin: 5px 0;
 }
 
+:global(.bottomTextbox .heading) {
+width: 400px;
+height: 130px;
+}
+
+:global(.topTextbox .heading) {
+  height: 130px;
+}
+
+.pink-span {
+    color: #ffbce5;
+  }
 
 </style>
