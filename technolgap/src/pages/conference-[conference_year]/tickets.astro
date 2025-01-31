@@ -38,7 +38,7 @@ async function fetchConference(): Promise<Conference> {
     return (response.items[0] as Conference);
 };
 
-let {ticketTypes, applyHere} = (await fetchConference()).fields
+let {ticketTypes, applyHere} = (await fetchConference()).fields as conference['fields']
 
 ---
 
