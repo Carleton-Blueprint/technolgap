@@ -2,6 +2,7 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import TextBox from "../../components/TextBox.astro";
 import { createClient, type Entry } from "contentful";
+import { undefined } from "astro:schema";
 
 const client = createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
@@ -30,15 +31,20 @@ type Conference = Entry<conference>;
 const { conference_year } = Astro.params;
 
 // const {ticketTypes, applicationLink} = await (async () => {
-async function fetchConference(): Promise<Conference> {
+async function fetchConference(): Promise<Conference | null> {
     const response = await client.getEntries({
         content_type: "conference",
         "fields.year": conference_year
     });
-    return (response.items[0] as Conference);
+    if (response.items[0]) {
+
+        return (response.items[0] as Conference);
+    } 
+
+    return null;
 };
 
-let {ticketTypes, applyHere} = (await fetchConference()).fields as conference['fields']
+let {ticketTypes, applyHere} = (await fetchConference())?.fields as conference['fields'] ?? {ticketTypes: null, applyHere: "#"}
 
 ---
 
@@ -46,17 +52,23 @@ let {ticketTypes, applyHere} = (await fetchConference()).fields as conference['f
     <article class="classic-bg">
         <h2>Tickets</h2>
         <div class="rows">
-            {
+            { ticketTypes ?
             ticketTypes.map((ticket) => 
             (
                 <TextBox heading={ticket.fields.type} text={"$"+ticket.fields.cost} description={ticket.fields.description} className="tickets" />
-            ))}
+            )) : 
+            <h2>No Ticket Info Available</h2>
+            }
         </div>
-        <a href={applyHere || ""} class="button apply-here">Apply Here</a>
+        {ticketTypes && <a href={applyHere || ""} class="button apply-here">Apply Here</a>}
+        
     </article>
 </PageLayout>
 
 <style>
+    article {
+        margin: 1px;
+    }
     h2 {
         font-size: 50px;
         color: #5A6160;
@@ -90,6 +102,12 @@ let {ticketTypes, applyHere} = (await fetchConference()).fields as conference['f
         .rows {
             flex-direction: column;
             align-items: center;
+        }
+    }
+    @media (max-width: 400px) {
+        :global(.tickets p) {
+            width: 250px;
+            background-color: #5A6160 !important;
         }
     }
 </style>
