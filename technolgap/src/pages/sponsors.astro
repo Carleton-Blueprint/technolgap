@@ -11,7 +11,6 @@ const client = createClient({
   accessToken: import.meta.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
-
 interface SponsorFields {
   fields: {
     name: string;
@@ -29,7 +28,6 @@ interface SponsorFields {
 }
 type Sponsor = Entry<SponsorFields>;
 
-
 async function fetchSponsors(): Promise<Sponsor[]> {
   const response = await client.getEntries({
     content_type: "sponsor",
@@ -37,12 +35,16 @@ async function fetchSponsors(): Promise<Sponsor[]> {
   return response.items as Sponsor[];
 }
 
-
 async function getCurrentAndPastSponsors() {
   const sponsors = await fetchSponsors();
 
-  const currentSponsors = sponsors.filter((sponsor) => sponsor.fields.current === true);
-  const pastSponsors = sponsors.filter((sponsor) => sponsor.fields.current === false);
+  const sortedSponsors = sponsors.sort((a, b) => {
+    const levels = ["gold", "silver", "partners", "supporters"];
+    return levels.indexOf(a.fields.sponsorshipLevel.toLowerCase()) - levels.indexOf(b.fields.sponsorshipLevel.toLowerCase());
+  });
+
+  const currentSponsors = sortedSponsors.filter((sponsor) => sponsor.fields.current === true);
+  const pastSponsors = sortedSponsors.filter((sponsor) => sponsor.fields.current === false);
 
   return { currentSponsors, pastSponsors };
 }
@@ -75,34 +77,36 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
     {sponsorType === "current" ? (
       <>
         {currentSponsors.map((sponsor) => (
-          <div class="sponsor-card" key={sponsor.sys.id}>
+          <div class={`sponsor-card ${sponsor.fields.sponsorshipLevel.toLowerCase()}-sponsor`} key={sponsor.sys.id}>
             <img src={sponsor.fields.logo.fields.file.url} alt={sponsor.fields.name} />
-            <h3>{sponsor.fields.name}</h3>
-            <p>{sponsor.fields.sponsorshipLevel}</p>
+            {/* <h3>{sponsor.fields.name}</h3>
+            <p>{sponsor.fields.sponsorshipLevel}</p> */}
           </div>
         ))}
       </>
     ) : (
       <>
         {pastSponsors.map((sponsor) => (
-          <div class="sponsor-card" key={sponsor.sys.id}>
+          <div class={`sponsor-card ${sponsor.fields.sponsorshipLevel.toLowerCase()}-sponsor`} key={sponsor.sys.id}>
             <img src={sponsor.fields.logo.fields.file.url} alt={sponsor.fields.name} />
-            <h3>{sponsor.fields.name}</h3>
-            <p>{sponsor.fields.sponsorshipLevel}</p>
+            {/* <h3>{sponsor.fields.name}</h3>
+            <p>{sponsor.fields.sponsorshipLevel}</p> */}
           </div>
         ))}
       </>
     )}
   </div>
  
-  <TextBox 
-  heading= "Why Sponsor Us?"
-  text="★ Access to a Talented Network ★ Promote Diversity and Inclusion ★ Positive Brand Association" 
-  className="bottomTextbox"
-/>
+  <div class="why-sponsor-box">
+    <h2>Why Sponsor Us?</h2>
+    <ul class="why-sponsor-list">
+      <li>Access to a Talented Network</li>
+      <li>Promote Diversity and Inclusion</li>
+      <li>Positive Brand Association</li>
+    </ul>
+  </div>
 
-<div style="height: 50px;"></div>
-
+  <div style="height: 50px;"></div>
 </PageLayout>
 
 <script>
@@ -110,58 +114,117 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
 </script>
 
 <style>
-    div {
+  div {
     padding-top: 1px;
   }
 
-    form {
-      right: 40vw;
-      padding-top: 50px;
-      margin-top: -100px;
-      margin-bottom: 100px;
-    }
-  
-    .sponsor-card {
-  background: none; 
-  border: none;
-  box-shadow: none; 
-  padding: 0; 
-  margin: 10px;
-  text-align: center; 
-}
-
-.sponsor-card img {
-  display: block; 
-  margin: 0 auto;
-  width: auto; 
-  max-width: 150px; 
-  height: auto; 
-  background: none; 
-  border: none; 
-}
-.sponsor-card h3 {
-  color: #2d6d68; 
-  font-size: 1.2em; 
-  margin: 10px 0; 
-}
-
-.sponsor-card p {
-  color: #2d6d68;
-  font-size: 1em; 
-  margin: 5px 0;
-}
-
-:global(.bottomTextbox .heading) {
-width: 400px;
-height: 130px;
-}
-
-:global(.topTextbox .heading) {
-  height: 130px;
-}
-
-.pink-span {
-    color: #ffbce5;
+  form {
+    right: 40vw;
+    padding-top: 50px;
+    margin-top: -100px;
+    margin-bottom: 100px;
   }
 
+  .sponsor-card {
+    background: none; 
+    border: none;
+    box-shadow: none; 
+    padding: 0; 
+    margin: 10px;
+    text-align: center; 
+  }
+
+  .sponsor-card img {
+    display: block; 
+    margin: 0 auto;
+    width: auto; 
+    height: auto; 
+    background: none; 
+    border: none; 
+  }
+
+  .gold-sponsor img {
+    max-width: 300px;
+  }
+
+  .silver-sponsor img {
+    max-width: 160px;
+  }
+
+  .partners-sponsor img {
+    max-width: 130px;
+  }
+
+  .supporters-sponsor img {
+    max-width: 110px;
+  }
+
+  .why-sponsor-box {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #fff;
+    background-color: #2d6d68;
+    display: inline-block;
+    padding: 15px 30px 30px 30px;
+    border-radius: 50px;
+    max-width: 800px;
+    box-shadow: 10px 10px 0px #f7deed;
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  .why-sponsor-box h2 {
+    font-size: 1.8em;
+    color: #fbfbfb;
+    margin-bottom: 15px;
+  }
+
+  .why-sponsor-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .why-sponsor-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    color: #ffffff;
+    margin: 10px 0;
+  }
+
+  .why-sponsor-list li::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url("/pink-star.png") no-repeat center center;
+    background-size: contain;
+  }
+
+  .sponsor-card h3 {
+    color: #2d6d68; 
+    font-size: 1.2em; 
+    margin: 10px 0; 
+  }
+
+  .sponsor-card p {
+    color: #2d6d68;
+    font-size: 1em; 
+    margin: 5px 0;
+  }
+
+  :global(.bottomTextbox .heading) {
+    width: 400px;
+    height: 130px;
+  }
+
+  :global(.topTextbox .heading) {
+    height: 130px;
+  }
+
+  .pink-span {
+    color: #ffbce5;
+  }
 </style>
