@@ -2,7 +2,6 @@
 import PageLayout from "../../layouts/PageLayout.astro";
 import TextBox from "../../components/TextBox.astro";
 import { createClient, type Entry } from "contentful";
-import { undefined } from "astro:schema";
 
 const client = createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,

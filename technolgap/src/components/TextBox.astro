@@ -6,7 +6,7 @@ const { heading, text, className='', description=null } = Astro.props;
   <p class="heading">
     <span class="highlight" style={description ? "font-size: 30px" : ""}>{heading}</span>
 
-    <span style={description ? "font-size: 27px" : ""}>{text}</span>
+    <span class="text" style={description ? "font-size: 27px" : ""}>{text}</span>
     
     {description ? (<br/><span>{description.map((d) => (
       <span class="descrip"><img src="/white-star.png" width="25px"/> {d}</span>
