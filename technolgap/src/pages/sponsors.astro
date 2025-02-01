@@ -5,6 +5,7 @@ import PageLayout from "../layouts/PageLayout.astro";
 import Dropdown from "../components/Dropdown.astro";
 import TextBox from "../components/TextBox.astro";
 import Subheading from "../components/Subheading.astro";
+import List from "../components/List.astro";
 
 const client = createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
@@ -97,14 +98,7 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
     )}
   </div>
  
-  <div class="why-sponsor-box">
-    <h2>Why <span class="pink-text">Sponsor</span> Us?</h2>
-    <ul class="why-sponsor-list">
-      <li>Access to a Talented Network</li>
-      <li>Promote Diversity and Inclusion</li>
-      <li>Positive Brand Association</li>
-    </ul>
-  </div>
+  <List titleBeforePink="Why" pinkText="Sponsor" titleAfterPink="Us?" items={["Access to a Talented Network", "Promote Diversity and Inclusion", "Positive Brand Association"]}/>
 
   <div style="height: 50px;"></div>
 </PageLayout>
@@ -159,48 +153,7 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
     max-width: 110px;
   }
 
-  .why-sponsor-box {
-    font-size: 17px;
-    line-height: 1.6;
-    color: #fff;
-    background-color: #2d6d68;
-    padding: 15px 30px 30px 30px;
-    border-radius: 50px;
-    max-width: 500px;
-    box-shadow: 10px 10px 0px #f7deed;
-    margin: 50px auto;
-    text-align: center;
-  }
-
-  .why-sponsor-box h2 {
-    font-size: 1.8em;
-    color: #fbfbfb;
-    margin-bottom: 15px;
-  }
-
-  .why-sponsor-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .why-sponsor-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.2em;
-    color: #ffffff;
-    margin: 10px 0;
-  }
-
-  .why-sponsor-list li::before {
-    content: "";
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background: url("/pink-star.png") no-repeat center center;
-    background-size: contain;
-  }
+  
 
   .sponsor-card h3 {
     color: #2d6d68; 
@@ -227,7 +180,5 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
     color: #ffbce5;
   }
 
-  .pink-text {
-  color: #ffbce5; 
-}
+  
 </style>
