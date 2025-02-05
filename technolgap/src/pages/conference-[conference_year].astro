@@ -1,15 +1,103 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro"
+import { createClient } from "contentful";
+import type { Entry } from "contentful";
+import TextBox from "../components/TextBox.astro";
+import Card from "../components/Card.astro";
+import Subheading from "../components/Subheading.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 
-// don't add linkes to navbar yet
-
-const { conference_year } = Astro.params;
-// get the conference from the year in the params
 ---
+<PageLayout title="">
 
-<PageLayout title="Conference" sparklesTop={false}>
-    <!-- use subheading and override the colour in style below -->
-    <!-- use textbox and override the colour in style below -->
-    <!-- use classic-bg class -->
-    <!-- use button class for the links and override the colour in style below -->
+    <div id="conference" class="classic-bg">
+        <Subheading title="Conference Title" />
+        <TextBox
+        heading="Event Date @ Location"
+        text="2-3 sentence summary of event"
+        />
+        <div class="grid grid-small">
+            <a class="link-small button" href="" target="_blank">APPLY HERE</a>
+            <a class="link-small" href="" target="_blank">SPONSOR US</a>
+        </div>
+        
+        <div class="grid grid-big">
+            <a class="link-big" href="" target="_blank">Tickets</a>
+            <a class="link-big" href="" target="_blank">FaQ</a>
+            <a class="link-big" href="" target="_blank">Schedule</a>
+            <a class="link-big" href="" target="_blank">Sponsors</a>
+        </div>
+        
+        
+    </div>
 </PageLayout>
+
+<style>
+    #conference {
+        padding-top: 50px;
+    }
+
+    .grid {
+        padding-bottom: 4rem;
+        place-items: center;
+    }
+    
+    .grid-big {
+        grid-template-columns: repeat(2, minmax(11rem, 25rem));
+    }
+    
+    .grid-small {
+        grid-template-columns: repeat(2, minmax(11rem, 20rem));
+    }
+
+    p {
+      padding: 0;
+      margin: 0;
+    }
+
+    #conference {
+        justify-items: center;
+    }
+
+    .link-small {
+        text-decoration: none;
+        font-weight: 600;
+        background-color: #5A6160;
+        padding: 30px 30px;
+        font-size: 28px;
+        border-radius: 15px;
+        color: white;
+        margin-top: 100px;
+        display: block;
+        text-align: center;
+        box-shadow: 7px 7px 0 0 #F7DFEE;
+        width: 210px;
+    }
+
+    .link-big {
+        text-decoration: none;
+        font-weight: 600;
+        background-color: #5A6160;
+        padding: 20px 50px;
+        font-size: 28px;
+        border-radius: 30px;
+        color: white;
+        margin-top: 100px;
+        display: block;
+        height: 20vh;
+        text-align: center;
+        border: 10px solid #F7DFEE;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+    }
+
+
+    @media (max-width: 500px) {
+        .grid {
+            grid-template-columns: repeat(2, minmax(6rem, 9rem));
+        }
+    }
+
+</style>
