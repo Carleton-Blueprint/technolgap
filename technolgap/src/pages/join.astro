@@ -54,7 +54,7 @@ const facebook = contacts.find(obj => obj.fields.name == 'facebook')?.fields.con
             </a>
         </p>             
         <p>
-            <a href={linkedIn as string} target="_blank">
+            <a href={linkedIn as string} target="_blank" >
                 <img
                 src="/linkedin-logo-black.png"
                 alt="linkedin logo"
@@ -64,7 +64,7 @@ const facebook = contacts.find(obj => obj.fields.name == 'facebook')?.fields.con
                 />
             </a>
         </p> 
-        <p>
+        <p >
             <a href={facebook as string} target="_blank">
                 <img
                 src="/facebook-black-logo.png"
@@ -80,6 +80,7 @@ const facebook = contacts.find(obj => obj.fields.name == 'facebook')?.fields.con
 </PageLayout>
 
 <style>
+
     #join {
         padding-top: 50px;
     }
