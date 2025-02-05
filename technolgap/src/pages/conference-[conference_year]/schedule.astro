@@ -16,6 +16,9 @@ interface conference {
         year: number;
         days: [
             {
+                sys: {
+                    id: string
+                }
                 fields: {
                     title: string,
                     date: string,
@@ -31,7 +34,8 @@ interface conference {
 interface events {
   fields: {
     title: string,
-    dateTime: string,
+    start: string,
+    end: string,
     venue: string,
     summary: string,
     speaker: {}
@@ -39,8 +43,18 @@ interface events {
   contentTypeId: "conferenceEvent";
 }
 
+interface speaker {
+  fields: {
+    name: string,
+    companyPosition: string,
+    companyName: string
+  };
+  contentTypeId: "speaker";
+}
+
 type Events = Entry<events>;
 type Conference = Entry<conference>;
+type Speaker = Entry<speaker>;
 
 const { conference_year } = Astro.params;
 
@@ -61,12 +75,30 @@ async function fetchEvents(id: string): Promise<Events[]> {
         content_type: "conferenceDay", // Ensure this matches your Contentful content type
         "sys.id": id
     });
-    return response.items[0].fields.events as Events[]
+    let events =  response.items[0].fields.events as Events[]
+    for(let e of events){
+        if (e.fields.speaker) {
+            e.fields.speaker = await fetchSponsor(e.fields.speaker.sys.id)
+        }
+    }
+    return events
+}
+
+async function fetchSponsor(id: string): Promise<Speaker> {
+    const response = await client.getEntries({
+        content_type: "speaker",
+        "sys.id": id
+    })
+    return response.items[0] as Speaker
 }
 
 let {days} = (await fetchConference())?.fields as conference['fields'] ?? {days: null}
 // HANDLE IS DAYS IS NULL
-let events = (await fetchEvents("1ITnNHqgKkqhWF7jet8Bpl"))
+
+
+const url = new URL(Astro.request.url);
+const selectedDay = url.searchParams.get("day") || days[0].sys.id;
+let events = (await fetchEvents(selectedDay))
 ---
 
 <PageLayout title="Conference Schedule">
@@ -74,11 +106,16 @@ let events = (await fetchEvents("1ITnNHqgKkqhWF7jet8Bpl"))
         <h2>Schedule</h2>
         <div class="rows">
             {days.map((d) => (
-                <TextBox heading={d.fields.title} text={d.fields.date} className={d.fields.title=="Day 1" ? "schedule-days selected" : "schedule-days"}/>
+                <div id={d.sys.id} class="day">
+                    <TextBox heading={d.fields.title} text={d.fields.date} className={d.sys.id===selectedDay ? "schedule-days selected" : "schedule-days"}/>
+                </div>
             ))}
         </div>
         {events.map((e) => (
-            <TextBox heading={e.fields.title} text={e.fields.summary} description={[e.fields.dateTime, e.fields.venue]} className="schedule-event"/>
+            <TextBox heading={e.fields.title} text={e.fields.summary} description={e.fields.speaker ? [e.fields.start+" - "+e.fields.end, e.fields.venue, e.fields.speaker.fields.name+", "+e.fields.speaker.fields.companyPosition+" at "+e.fields.speaker.fields.companyName] : [e.fields.start+" - "+e.fields.end, e.fields.venue]} className="schedule-event"/>
+            <add-to-calendar data-event={e}>
+                <button>Add to Calendar</button>
+            </add-to-calendar>
             <br/> <br/>
         ))}
     </article>
@@ -98,6 +135,7 @@ let events = (await fetchEvents("1ITnNHqgKkqhWF7jet8Bpl"))
         padding: 0 20px;
         text-align: center;
         position: relative;
+        -webkit-text-stroke: 0.5px #ffffff;
     }
 
     .rows {
@@ -111,8 +149,9 @@ let events = (await fetchEvents("1ITnNHqgKkqhWF7jet8Bpl"))
     :global(.schedule-days p) {
         background-color: #5A6160 !important;
         font-weight: 100;
-        padding: 10px 75px !important;
-        border-radius: 40px !important;
+        padding: 10px !important;
+        border-radius: 30px !important;
+        width: 250px;
     }
 
     :global(.schedule-days .text){
@@ -138,4 +177,80 @@ let events = (await fetchEvents("1ITnNHqgKkqhWF7jet8Bpl"))
         width: 80%;
         max-width: 800px;
     }
+
+    @media (max-width: 970px) {
+        :global(.schedule-days p) {
+            width: 200px;
+        }
+        
+        :global(.schedule-days .text) {
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 800px) {
+        .rows {
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        :global(.schedule-days p) {
+            width: 150px;
+        }
+    }
+    
+    @media (max-width: 650px) {
+        :global(.schedule-days p) {
+            width: 100px;
+        }
+    }
+    
+    @media (max-width: 500px) {
+        :global(.schedule-days .text) {
+            font-size: 15px;
+        }
+        .rows {
+            gap: 0;
+        }
+    }
+    
+    @media (max-width: 450px) {
+        :global(.schedule-days p) {
+            width: 250px;
+        }
+
+        :global(.schedule-days) {
+            margin-bottom: 30px;
+        }
+
+        .rows {
+            display: block;
+        }
+    }
 </style>
+
+<script>
+    const days = document.getElementsByClassName("day")
+    for (const d of days) {
+        d.addEventListener('click', (e) => {
+            const url = new URL(window.location.href);
+            url.searchParams.set("day", e.currentTarget.id); // Updates the param if it exists
+            window.history.replaceState({}, "", url);
+            window.location.reload();
+        })
+    }
+
+    class AddToCalendar extends HTMLElement {
+    connectedCallback() {
+      // Read the message from the data attribute.
+      const event = this.dataset.event;
+      console.log(event)
+      const button = this.querySelector('button');
+      button.addEventListener('click', () => {
+        console.log(event.fields)
+      });
+    }
+  }
+
+  customElements.define('add-to-calendar', AddToCalendar);
+</script>
