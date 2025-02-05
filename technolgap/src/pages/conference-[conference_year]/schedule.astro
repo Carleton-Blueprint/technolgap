@@ -111,12 +111,22 @@ let events = (await fetchEvents(selectedDay))
                 </div>
             ))}
         </div>
-        {events.map((e) => (
-            <TextBox heading={e.fields.title} text={e.fields.summary} description={e.fields.speaker ? [e.fields.start+" - "+e.fields.end, e.fields.venue, e.fields.speaker.fields.name+", "+e.fields.speaker.fields.companyPosition+" at "+e.fields.speaker.fields.companyName] : [e.fields.start+" - "+e.fields.end, e.fields.venue]} className="schedule-event"/>
-            <add-to-calendar data-event={e}>
-                <button>Add to Calendar</button>
-            </add-to-calendar>
-            <br/> <br/>
+        {events.map((e) => (            
+            <div class={`schedule-event`}>
+                <div class="heading">
+                    <p class="event-heading">{e.fields.title}</p>
+                    <p class="event-subheading">{e.fields.venue} @ {new Date(e.fields.start).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })} - {new Date(e.fields.end).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })}</p>
+                    <p class="event-content">{e.fields.summary}</p>
+                    {e.fields.speaker ? (
+                        <a class="event-content" href="/speakers">Speaker: {e.fields.speaker.fields.name}, {e.fields.speaker.fields.companyPosition} @ {e.fields.speaker.fields.companyName}</a>
+                    <br/>): <a class="event-content"></a> }
+                    <a class="cal-link">Add to Calendar <img width="20px" src="/calendar-add.png"/></a>
+                </div>
+            </div>
+
+            // <add-to-calendar data-event={e}>
+            //     <button>Add to Calendar</button>
+            // </add-to-calendar>
         ))}
     </article>
 </PageLayout>
@@ -124,6 +134,7 @@ let events = (await fetchEvents(selectedDay))
 <style>
     article {
         margin: 1px;
+        padding-bottom: 100px;
     }
 
     h2 {
@@ -168,14 +179,78 @@ let events = (await fetchEvents(selectedDay))
         box-shadow: 5px 7px 2px 1px #00000050, 10px 10px 0px #f7deed !important;
         cursor: pointer;
     }
+
+    .schedule-event {
+        text-align: center;
+        padding: 0 15px;
+        z-index: 10;
+        position: relative;
+    }
     
-    :global(.schedule-event p) {
+    .heading {
         outline: 2px solid #fff;
-        box-shadow: 3px 5px 2px 1px #00000050, 10px 10px 0px #f7deed !important;
-        background-color: #5A6160 !important;
-        border-radius: 40px !important;
+        box-shadow: 10px 10px 0px #f7deed, 10px 10px 2px 1px #00000050;
+        background-color: #5A6160;
+        border-radius: 40px;
         width: 80%;
         max-width: 800px;
+        font-size: 17px;
+        line-height: 1.6;
+        color: #fff;
+        display: inline-block;
+        padding: 15px 30px;
+        max-width: 800px;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .schedule-event p {
+        margin: 0;
+        padding: 5px;
+    }
+
+    .event-heading {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .event-subheading {
+        color: white;
+        font-size: 18px;
+    }
+
+    .event-content {
+        color: white;
+        font-size: 18px;
+    }
+
+    .heading > a {
+        margin-top: 20px;
+        text-decoration: underline #ffffff50;
+    }
+    
+    .heading > a:hover {
+        color: #f7deed;
+        text-decoration: underline #f7deed;
+    }
+
+    .cal-link {
+        background-color: #f7deed;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 5px 20px;
+        border-radius: 20px;
+        color: #5A6160;
+    }
+
+    @media(max-width: 1100px) {
+        .cal-link {
+            position: relative;
+            margin-left: 65vw;
+            bottom: 10px;
+        }
     }
 
     @media (max-width: 970px) {
@@ -203,6 +278,14 @@ let events = (await fetchEvents(selectedDay))
         :global(.schedule-days p) {
             width: 100px;
         }
+
+        .event-heading {
+            font-size: 18px;
+        }
+
+        .event-subheading, .event-content {
+            font-size: 15px;
+        }
     }
     
     @media (max-width: 500px) {
@@ -212,6 +295,19 @@ let events = (await fetchEvents(selectedDay))
         .rows {
             gap: 0;
         }
+
+        .cal-link {
+            /* left: 10px; */
+            margin-left: 0;
+        }
+
+        .cal-link img {
+            width: 30px;
+        }
+
+        .heading > a {
+        margin-bottom: 0;
+    }
     }
     
     @media (max-width: 450px) {
