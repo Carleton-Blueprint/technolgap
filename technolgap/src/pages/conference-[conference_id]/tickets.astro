@@ -9,6 +9,7 @@ const client = createClient({
 });
 
 interface conference {
+    sys: {id: string}
     fields: {
         year: number;
         ticketTypes: [
@@ -27,13 +28,13 @@ interface conference {
 
 type Conference = Entry<conference>;
 
-const { conference_year } = Astro.params;
+const { conference_id } = Astro.params;
 
 // const {ticketTypes, applicationLink} = await (async () => {
 async function fetchConference(): Promise<Conference | null> {
     const response = await client.getEntries({
         content_type: "conference",
-        "fields.year": conference_year
+        "sys.id": conference_id
     });
     if (response.items[0]) {
 

@@ -28,14 +28,15 @@ interface conference {
 
 type Conference = Entry<conference>;
 
-const { conference_year } = Astro.params;
+const { conference_id } = Astro.params;
 
 // const {ticketTypes, applicationLink} = await (async () => {
 async function fetchConference(): Promise<Conference | null> {
     const response = await client.getEntries({
         content_type: "conference",
-        "fields.year": conference_year
+        "sys.id": conference_id
     });
+    console.log(response.items, conference_id)
     if (response.items[0]) {
 
         return (response.items[0] as Conference);
@@ -61,9 +62,9 @@ let conference = await fetchConference()
         </div>
         
         <div class="grid grid-big">
-            <a class="link-big" href=`/conference-${conference_year}/tickets`>Tickets</a>
-            <a class="link-big" href=`/conference-${conference_year}/faq`>FaQ</a>
-            <a class="link-big" href=`/conference-${conference_year}/schedule`>Schedule</a>
+            <a class="link-big" href=`/conference-${conference_id}/tickets`>Tickets</a>
+            <a class="link-big" href=`/conference-${conference_id}/faq`>FaQ</a>
+            <a class="link-big" href=`/conference-${conference_id}/schedule`>Schedule</a>
             <a class="link-big" href="/sponsors">Sponsors</a>
         </div>
         
