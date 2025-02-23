@@ -12,6 +12,7 @@ const client = createClient({
 });
 
 interface conference {
+    sys: {id: string}
     fields: {
         year: number;
         days: [
@@ -56,13 +57,13 @@ type Events = Entry<events>;
 type Conference = Entry<conference>;
 type Speaker = Entry<speaker>;
 
-const { conference_year } = Astro.params;
+const { conference_id } = Astro.params;
 
 // const {ticketTypes, applicationLink} = await (async () => {
 async function fetchConference(): Promise<Conference | null> {
     const response = await client.getEntries({
         content_type: "conference",
-        "fields.year": conference_year
+        "sys.id": conference_id
     });
     if (response.items[0]) {
         return (response.items[0] as Conference);
@@ -97,37 +98,44 @@ let {days} = (await fetchConference())?.fields as conference['fields'] ?? {days:
 
 
 const url = new URL(Astro.request.url);
-const selectedDay = url.searchParams.get("day") || days[0].sys.id;
+const selectedDay = url.searchParams.get("day") || days && days[0]?.sys.id;
 let events = (await fetchEvents(selectedDay))
 ---
 
 <PageLayout title="Conference Schedule">
     <article class="classic-bg">
         <h2>Schedule</h2>
-        <div class="rows">
-            {days.map((d) => (
-                <div id={d.sys.id} class="day">
-                    <TextBox heading={d.fields.title} text={d.fields.date} className={d.sys.id===selectedDay ? "schedule-days selected" : "schedule-days"}/>
-                </div>
-            ))}
-        </div>
-        {events.map((e) => (            
-            <div class={`schedule-event`}>
-                <div class="heading">
-                    <p class="event-heading">{e.fields.title}</p>
-                    <p class="event-subheading">{e.fields.venue} @ {new Date(e.fields.start).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })} - {new Date(e.fields.end).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })}</p>
-                    <p class="event-content">{e.fields.summary}</p>
-                    {e.fields.speaker ? (
-                        <a class="event-content" href="/speakers">Speaker: {e.fields.speaker.fields.name}, {e.fields.speaker.fields.companyPosition} @ {e.fields.speaker.fields.companyName}</a>
-                    <br/>): <a class="event-content"></a> }
-                    <a class="cal-link">Add to Calendar <img width="20px" src="/calendar-add.png"/></a>
-                </div>
+        {
+            days && events ?
+            <div>
+            <div class="rows">
+                {days.map((d) => (
+                    <div id={d.sys.id} class="day">
+                        <TextBox heading={d.fields.title} text={d.fields.date} className={d.sys.id===selectedDay ? "schedule-days selected" : "schedule-days"}/>
+                    </div>
+                ))}
             </div>
+            {events.map((e) => (            
+                <div class={`schedule-event`}>
+                    <div class="heading">
+                        <p class="event-heading">{e.fields.title}</p>
+                        <p class="event-subheading">{e.fields.venue} @ {new Date(e.fields.start).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })} - {new Date(e.fields.end).toLocaleString("en-US", { hour: "numeric", minute: "numeric" })}</p>
+                        <p class="event-content">{e.fields.summary}</p>
+                        {e.fields.speaker ? (
+                            <a class="event-content" href="/speakers">Speaker: {e.fields.speaker.fields.name}, {e.fields.speaker.fields.companyPosition} @ {e.fields.speaker.fields.companyName}</a>
+                        <br/>): <a class="event-content"></a> }
+                        <a class="cal-link">Add to Calendar <img width="20px" src="/calendar-add.png"/></a>
+                    </div>
+                </div>
 
-            // <add-to-calendar data-event={e}>
-            //     <button>Add to Calendar</button>
-            // </add-to-calendar>
-        ))}
+                // <add-to-calendar data-event={e}>
+                //     <button>Add to Calendar</button>
+                // </add-to-calendar>
+            )) }
+            </div>
+        :
+            (<TextBox heading="Schedule Not Available"/>)
+        }
     </article>
 </PageLayout>
 
