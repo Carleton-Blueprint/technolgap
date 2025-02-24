@@ -63,6 +63,11 @@ const { currentSponsors, pastSponsors } = await getCurrentAndPastSponsors();
 
 const url = new URL(Astro.request.url);
 const sponsorType = url.searchParams.get("sponsorType") || "current";
+
+const email = await client.getEntries({
+  content_type: "contact",
+  'fields.name': 'sponsorEmail'
+});
 ---
 <PageLayout title="Sponsors">
   <div>
@@ -124,7 +129,8 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
  
   <List titleBeforePink="Why" pinkText="Sponsor" titleAfterPink="Us?" items={["Access to a Talented Network", "Promote Diversity and Inclusion", "Positive Brand Association"]}/>
 
-  <div style="height: 50px;"></div>
+  <p id="contact">Contact us as <a href=`mailto:${email}`>outreach@technolgap.org</a> for any further inquiries.</p>
+  <div style="height: 1px;"></div>
 </PageLayout>
 
 <script>
@@ -132,6 +138,24 @@ const sponsorType = url.searchParams.get("sponsorType") || "current";
 </script>
 
 <style>
+  #contact {
+    color: #2d6d68;
+    margin-top: 100px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  #contact > a{
+    color: #2d6d68;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  #contact > a:hover {
+    text-decoration: underline;
+  }
+
   div {
     padding-top: 1px;
   }
