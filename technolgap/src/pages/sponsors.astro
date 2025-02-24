@@ -64,10 +64,10 @@ const { currentSponsors, pastSponsors } = await getCurrentAndPastSponsors();
 const url = new URL(Astro.request.url);
 const sponsorType = url.searchParams.get("sponsorType") || "current";
 
-const email = await client.getEntries({
+const email = (await client.getEntries({
   content_type: "contact",
   'fields.name': 'sponsorEmail'
-});
+})).items[0].fields.content;
 ---
 <PageLayout title="Sponsors">
   <div>
@@ -129,7 +129,7 @@ const email = await client.getEntries({
  
   <List titleBeforePink="Why" pinkText="Sponsor" titleAfterPink="Us?" items={["Access to a Talented Network", "Promote Diversity and Inclusion", "Positive Brand Association"]}/>
 
-  <p id="contact">Contact us as <a href=`mailto:${email}`>outreach@technolgap.org</a> for any further inquiries.</p>
+  <p id="contact">Contact us at <a href=`mailto:${email}`>{email}</a> for any further inquiries.</p>
   <div style="height: 1px;"></div>
 </PageLayout>
 
